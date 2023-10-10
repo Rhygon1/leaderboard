@@ -1,4 +1,5 @@
 async function main(){
+    document.querySelector('.leaderboard').innerHTML = ''
     let res = await fetch('/leaderboard')
     res = await res.json()
     console.log(res)
@@ -26,7 +27,7 @@ async function main(){
         score.innerText = res[i]['Score']
         let pts = document.createElement('div')
         pts.classList.add('pts')
-        pts.innerText = 'PTS'
+        pts.innerText = ''
         sec2.appendChild(score)
         sec2.appendChild(pts)
         mainDiv.appendChild(sec2)
@@ -34,5 +35,10 @@ async function main(){
         document.querySelector('.leaderboard').appendChild(mainDiv)
     }
 }
+
+const socket = io();
+socket.on('UpdateLeaderboard', (message) => {
+    main()
+});
 
 main()

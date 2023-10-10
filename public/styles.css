@@ -59,7 +59,7 @@ body {
 
 @media (max-width: 676px) {
     .name{
-        font-size: 40px;
+        font-size: 35px;
     }
     .num1 .name{
         font-size: 55px;
@@ -70,6 +70,6 @@ body {
     }
 
     body {
-        margin-left: 10vw;
+        margin-left: 4vw;
     }
 }

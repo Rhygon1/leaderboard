@@ -5,6 +5,8 @@ const server = http.createServer(app);
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
+const socketIo = require('socket.io');
+const io = socketIo(server);
 
 const schema = new mongoose.Schema({
     Name: String,
@@ -17,14 +19,22 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
 
+io.on('connection', (socket) => {
+    console.log('A user connected');
+  
+    socket.on('disconnect', () => {
+      console.log('A user disconnected');
+    });
+});
+
 mongoose.connect('mongodb+srv://Dhruv:gilbert130@cluster0.rcpc7.mongodb.net/mr-cross-speedrun?retryWrites=true&w=majority')
-    .then(() => model.find({}).sort('-Score').exec())
+    .then(() => model.find({}).sort('Score').exec())
     .then(() => {
         server.listen(3000)
     })
 
 app.get('/leaderboard', async (req, res) => {
-    let response = await model.find({}).sort('-Score').exec()
+    let response = await model.find({}).sort('Score').exec()
     res.send(response)
 })
 
@@ -44,7 +54,10 @@ app.post('/leaderboard', (req, res) => {
             if(response.matchedCount === 0){
                 console.log('a')
                 model.create(obj)
-                    .then(r => res.send(r))
+                    .then(r => {
+                        io.emit('UpdateLeaderboard')
+                        res.send(r)
+                    })
             } else {
                 res.send(response)
             }
