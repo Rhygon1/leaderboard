@@ -55,11 +55,11 @@ app.post('/leaderboard', (req, res) => {
                 console.log('a')
                 model.create(obj)
                     .then(r => {
-                        io.emit('UpdateLeaderboard')
                         res.send(r)
                     })
             } else {
                 res.send(response)
             }
+            io.emit('UpdateLeaderboard')
     })
 })
