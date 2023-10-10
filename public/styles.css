@@ -1,0 +1,75 @@
+*{
+    margin: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 0; 
+    height: 0;
+  }
+
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    margin-left: 25vw;
+    margin-top: 5vh;
+    flex-direction: column;
+}
+
+.entry{
+    color:blueviolet;
+    font-family: 'Roboto Mono', monospace;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.section{
+    display: flex;
+}
+
+.number{
+    margin-right: 3px;
+    font-size: 30px;
+}
+
+.name{
+    font-size: 50px;
+}
+
+.pts{
+    margin-left: 5px;
+}
+
+.num1 .number{
+    font-size: 55px;
+}
+
+.num1 .name{
+    font-size: 75px;
+}
+
+.num1 .pts{
+    font-size: 35px;
+}
+
+.num1 .score{
+    font-size: 35px;
+}
+
+@media (max-width: 676px) {
+    .name{
+        font-size: 40px;
+    }
+    .num1 .name{
+        font-size: 55px;
+    }
+
+    .num1 .number{
+        font-size: 45px;
+    }
+
+    body {
+        margin-left: 10vw;
+    }
+}
