@@ -21,9 +21,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
     console.log('A user connected');
-  
+
     socket.on('disconnect', () => {
-      console.log('A user disconnected');
+        console.log('A user disconnected');
     });
 });
 
@@ -39,7 +39,7 @@ app.get('/leaderboard', async (req, res) => {
 })
 
 app.post('/leaderboard', (req, res) => {
-    if(!req.body.Name || !req.body.Score){
+    if (!req.body.Name || !req.body.Score) {
         res.send('Smt went wrong :/')
         return
     }
@@ -49,17 +49,26 @@ app.post('/leaderboard', (req, res) => {
     }
     console.log(req.body)
 
-    model.updateOne({Name: obj.Name}, {Score: obj.Score})
-        .then(response => {
-            if(response.matchedCount === 0){
-                console.log('a')
-                model.create(obj)
-                    .then(r => {
-                        res.send(r)
-                    })
+    model.findOne({ Name: obj.Name })
+        .then(r => {
+            if (r && r.Score < obj.Score) {
+                res.send('nuh uh')
+                return
             } else {
-                res.send(response)
+                model.updateOne({ Name: obj.Name }, { Score: obj.Score })
+                    .then(response => {
+                        if (response.matchedCount === 0) {
+                            console.log('a')
+                            model.create(obj)
+                                .then(r => {
+                                    res.send(r)
+                                })
+                        } else {
+                            res.send(response)
+                        }
+                        io.emit('UpdateLeaderboard')
+                    })
             }
-            io.emit('UpdateLeaderboard')
-    })
+        })
+
 })
