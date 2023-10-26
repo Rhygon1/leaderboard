@@ -24,7 +24,7 @@ async function main(){
         sec2.classList.add('section')
         let score = document.createElement('div')
         score.classList.add('score')
-        score.innerText = res[i]['Score']
+        score.innerText = '0' + Math.floor(Number(res[i]['Score'])/60) + ':' +  (Number(res[i]['Score'])%60).toFixed(2).toString().replace('.', ':')
         let pts = document.createElement('div')
         pts.classList.add('pts')
         pts.innerText = ''
